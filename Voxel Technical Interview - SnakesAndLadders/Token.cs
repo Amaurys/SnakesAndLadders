@@ -1,8 +1,10 @@
 ﻿namespace Voxel_Technical_Interview___SnakesAndLadders
 {
-    public class User
+    public class Token
     {
         public string Name { get; set; }
         public int Position { get; set; }
+
+        public bool Turn { get; set; }
     }
 }
