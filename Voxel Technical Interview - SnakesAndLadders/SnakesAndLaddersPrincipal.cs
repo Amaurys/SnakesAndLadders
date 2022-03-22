@@ -104,7 +104,9 @@ namespace Voxel_Technical_Interview___SnakesAndLadders
                 if (playerOne.Turn)
                 {
                     Console.WriteLine($"{playerOne.Name} is playing now.");
-                    playerOne.Position +=moveNumber;
+                    if ((playerOne.Position + moveNumber) <= 100)
+                        playerOne.Position += moveNumber;
+                    VerifyPosition(playerOne);
                     Console.WriteLine($"Now, the position of {playerOne.Name} is {playerOne.Position}.\n");
                     playerOne.Turn = false;
                     playerTwo.Turn = true;
@@ -113,13 +115,25 @@ namespace Voxel_Technical_Interview___SnakesAndLadders
                 else
                 {
                     Console.WriteLine($"{playerTwo.Name} is playing now.");
-                    playerTwo.Position +=moveNumber;
+                    if ((playerTwo.Position + moveNumber) <= 100)
+                        playerTwo.Position += moveNumber;
+                    VerifyPosition(playerTwo);
                     Console.WriteLine($"Now, the position of {playerTwo.Name} is {playerTwo.Position}.\n");
                     playerTwo.Turn = false;
                     playerOne.Turn = true;
                     RunPrincipalActivity();
                 }
             }           
+        }
+
+        private void VerifyPosition(Token player)
+        {
+            if (player.Position == 100)
+            {
+                Console.WriteLine($"Congratulation {player.Name}, you are the winner!\n The game will close.");
+                Console.ReadLine();
+                Environment.Exit(0);
+            }
         }
     }
 }
