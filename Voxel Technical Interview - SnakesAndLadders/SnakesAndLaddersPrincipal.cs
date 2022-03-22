@@ -7,7 +7,7 @@ namespace Voxel_Technical_Interview___SnakesAndLadders
         private int menuOption;
         private Token playerOne;
         private Token playerTwo;
-
+        private readonly Random rnd = new Random();
         private void RunPrincipalActivity()
         {
             GenerateSubMenu();
@@ -90,9 +90,11 @@ namespace Voxel_Technical_Interview___SnakesAndLadders
         }
 
         private void MoveToken()
-        {
-            Console.WriteLine("Insert a number to move the token:");
-            _ = int.TryParse(Console.ReadLine(), out int moveNumber);
+        {            
+            int dice = rnd.Next(1, 7);
+            Console.WriteLine("Rolling the die ...");
+            Console.WriteLine($"Die number is {dice}");
+
 
             if (playerOne == null || playerTwo == null)
             {
@@ -104,8 +106,8 @@ namespace Voxel_Technical_Interview___SnakesAndLadders
                 if (playerOne.Turn)
                 {
                     Console.WriteLine($"{playerOne.Name} is playing now.");
-                    if ((playerOne.Position + moveNumber) <= 100)
-                        playerOne.Position += moveNumber;
+                    if ((playerOne.Position + dice) <= 100)
+                        playerOne.Position += dice;
                     VerifyPosition(playerOne);
                     Console.WriteLine($"Now, the position of {playerOne.Name} is {playerOne.Position}.\n");
                     playerOne.Turn = false;
@@ -115,8 +117,8 @@ namespace Voxel_Technical_Interview___SnakesAndLadders
                 else
                 {
                     Console.WriteLine($"{playerTwo.Name} is playing now.");
-                    if ((playerTwo.Position + moveNumber) <= 100)
-                        playerTwo.Position += moveNumber;
+                    if ((playerTwo.Position + dice) <= 100)
+                        playerTwo.Position += dice;
                     VerifyPosition(playerTwo);
                     Console.WriteLine($"Now, the position of {playerTwo.Name} is {playerTwo.Position}.\n");
                     playerTwo.Turn = false;
