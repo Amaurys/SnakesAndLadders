@@ -8,9 +8,9 @@ namespace Voxel_Technical_Interview___SnakesAndLadders
         private Token playerOne;
         private Token playerTwo;
 
-        public void RunPrincipalActivity()
+        private void RunPrincipalActivity()
         {
-            GenerateMainMenu();
+            GenerateSubMenu();
 
             switch (menuOption)
             {
@@ -18,22 +18,40 @@ namespace Voxel_Technical_Interview___SnakesAndLadders
                     Console.WriteLine("Game started!\n");
                     StartGame();
                     PrintPositions();
+                    RunPrincipalActivity();
+                    break;
+                case 2:
+                    MoveToken();
+                    break;
+                case 3:
+                    PrintPositions();
+                    RunPrincipalActivity();
+                    break;
+                case 9:
+                    Environment.Exit(0);
                     break;
                 default:
                     Console.WriteLine("Activity not registered, please try again.\n");
-                    GenerateMainMenu();
+                    RunPrincipalActivity();
                     break;
             }
         }
 
-        private int GenerateMainMenu()
+        public void GenerateMainMenu()
         {
             Console.WriteLine("Welcome to Snakes and Ladders.\n");
             Console.WriteLine("This game will be played by two players.\n");
 
+            RunPrincipalActivity();
+        }
+
+        private int GenerateSubMenu()
+        {
             Console.WriteLine("To start to play, please select the number of an option:\n");
-            Console.WriteLine("1-Start the game");
-            Console.WriteLine("9-Close game");
+            Console.WriteLine("1-Start/restart the game");
+            Console.WriteLine("2-Move Token");
+            Console.WriteLine("3-Pint positions");
+            Console.WriteLine("9-Close game\n");
 
             int.TryParse(Console.ReadLine(), out menuOption);
 
@@ -45,25 +63,63 @@ namespace Voxel_Technical_Interview___SnakesAndLadders
             playerOne = new Token()
             {
                 Name = "Player One",
-                Position = 1
+                Position = 1,
+                Turn = true
             };
 
             playerTwo = new Token()
             {
                 Name = "Player Two",
-                Position = 1
+                Position = 1,
+                Turn = false
             };
         }
 
         private void PrintPositions()
         {
-            Console.WriteLine($"{playerOne.Name} position: {playerOne.Position}");
-            Console.WriteLine($"{playerTwo.Name} position: {playerTwo.Position}\n");
+            if (playerOne == null || playerTwo == null)
+            {
+                Console.WriteLine("First, you have to start the game.\n");
+                RunPrincipalActivity();
+            }
+            else
+            {
+                Console.WriteLine($"{playerOne.Name} position: {playerOne.Position}");
+                Console.WriteLine($"{playerTwo.Name} position: {playerTwo.Position}\n");
+            }           
         }
 
-        private int GeneratePosition()
+        private void MoveToken()
         {
+            Console.WriteLine("Insert a number to move the token:");
+            _ = int.TryParse(Console.ReadLine(), out int moveNumber);
 
+            if (playerOne == null || playerTwo == null)
+            {
+                Console.WriteLine("First, you have to start the game.\n");
+                RunPrincipalActivity();
+            }
+            else
+            {
+                if (playerOne.Turn)
+                {
+                    Console.WriteLine($"{playerOne.Name} is playing now.");
+                    playerOne.Position +=moveNumber;
+                    Console.WriteLine($"Now, the position of {playerOne.Name} is {playerOne.Position}.\n");
+                    playerOne.Turn = false;
+                    playerTwo.Turn = true;
+                    RunPrincipalActivity();
+                }
+                else
+                {
+                    Console.WriteLine($"{playerTwo.Name} is playing now.");
+                    playerTwo.Position +=moveNumber;
+                    Console.WriteLine($"Now, the position of {playerTwo.Name} is {playerTwo.Position}.\n");
+                    playerTwo.Turn = false;
+                    playerOne.Turn = true;
+                    RunPrincipalActivity();
+                }
+            }           
         }
     }
 }

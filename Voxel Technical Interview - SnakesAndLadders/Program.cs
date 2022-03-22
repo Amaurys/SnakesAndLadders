@@ -5,7 +5,7 @@
         static void Main(string[] args)
         {
             SnakesAndLaddersPrincipal snakesAndLaddersPrincipal = new SnakesAndLaddersPrincipal();
-            snakesAndLaddersPrincipal.RunPrincipalActivity();
+            snakesAndLaddersPrincipal.GenerateMainMenu();
         }
     }
 }
